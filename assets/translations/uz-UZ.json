@@ -1,3 +1,82 @@
 {
-    "hello":"salom"
+    "home":{
+        "contracts":"Shartnoma",
+        "history":"Tarix",
+        "new":"Yangi",
+        "saved":"Saqlanganlar",
+        "profile":"Profil",
+        "date":"Sana",
+        "status":"Status"
+        
+    },
+    "contracts":{       
+        "invoiceBt":"Invoice",           
+        "contracts":"Shartnoma",
+        "invoice":"Invoyslar",
+        "weekDays":{
+            "monday":"Du",
+            "tuesday":"Se",
+            "wednesday":"Chr",
+            "thursday":"Pa",
+            "friday":"Ju",
+            "saturday":"Sha",
+            "sunday":"Ya"
+        },
+"month":{
+    "august":"August"
+
+}
+
+    },
+    "filter":{
+        "cancel":"Qaytish",
+        "apply":"Qabul qilish",
+        "paid":"To'langan",
+        "inprocess":"O'rganilmoqda",
+        "rejectedbyiq":"IQ rad etdi",
+        "rejectedbypayme":"Payme rad etdi",
+        "filters":"Filterlar"
+    },
+    "profile":{
+        "birth":"Tug'ilgan sana",
+        "phone":"Telefon raqami",
+        "mail":"E-mail",
+        "profile":"Profil"
+    },
+    "newContract":{
+        "create":"Nima yaratishni istaysiz",
+        "new contract":"Yangi shartnoma",
+        "invididual":"Shaxs",
+        "citizen":"Jismoniy",
+        "legal":"Yuridik",
+        "name":"To'liq ism",
+        "address":"Tashkilot manzili",
+        "INT":"INN",
+        "status":"Shartnoma xolati"
+
+    },
+    "newInvoice":{
+        "service":"Xizmat nomi",
+        "amount":"Invoice summasi",
+        "status":"Invoice xolati",
+        "new":"Yangi Invoice"
+    },
+    "contractItem":{
+        "name":"Fish",
+        "amount":"Summa",
+        "invoice":"Oxirgi invoice",
+        "invoices":"Invoicelar soni",
+        "created":"Yaratilgan",
+        "delete":"Shartnomani o'chirish",
+        "create":"Shartnoma yaratish",
+        "extra":"Yoldosheva Feruza bilan \n boshqa shartnomalar ",
+        "comment":"Nima uchun bu shartnomani o'chirayotganingiz  \n        uchun sabab qoldiring",
+        "cancel":"Qaytish",
+        "done":"Bajarish"
+    },
+    "empty":{
+        "saved":"Saqlangan shartnomalar yo'q",
+        "contracts":"Shartnomalar yo'q",
+        "history":"Bu vaqt uchun shartnomalar yo'q"
+    }
 }

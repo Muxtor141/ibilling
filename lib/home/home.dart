@@ -1,17 +1,20 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:ibilling/bloc/data_bloc.dart';
-import 'package:ibilling/components/contract_item.dart';
-import 'package:ibilling/pages/contracts/radio_filters.dart';
-import 'package:ibilling/pages/contracts/calendar.dart';
+
 import 'package:ibilling/pages/contracts/contracts_main.dart';
 import 'package:ibilling/pages/contracts/date_filter.dart';
 import 'package:ibilling/pages/history/history_main.dart';
+import 'package:ibilling/pages/new/add_contract.dart';
+import 'package:ibilling/pages/new/add_invoice.dart';
+import 'package:ibilling/pages/new/creating_dialog.dart';
 import 'package:ibilling/pages/new/new_main.dart';
 import 'package:ibilling/pages/profile/profile_main.dart';
 import 'package:ibilling/pages/saved/saved_main.dart';
 import 'package:ibilling/pages/single/single_item.dart';
+import 'package:ibilling/services/date/date_bloc.dart';
+import 'package:ibilling/services/events_cubit.dart';
+
 import '../components/billing_icons_icons.dart';
 
 class Home extends StatefulWidget {
@@ -20,15 +23,20 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int navBarIndex = 0;
-  PageController _pageController = PageController();
-  var text1 = 'hello'.tr();
+  final data = NavBarindex();
+  final _bloc = DateUpdateBloc();
+  final cubit = DataProvider();
+
+  int indexNew = 0;
 
   @override
   Widget build(BuildContext context) {
+    int navBarIndex = data.state;
+
     final sizeQuery = MediaQuery.of(context).size;
-    final cubit = DataProvider();
-    var appBar = AppBar(
+    PageController pageController = PageController();
+    // data.getPageController(_pageController);
+    AppBar appBar = AppBar(
       actions: [
         IconButton(
           onPressed: () {
@@ -53,85 +61,107 @@ class _HomeState extends State<Home> {
         onPressed: () {},
       ),
       title: Text(
-        'hello'.tr(),
+        'home.contracts'.tr(),
         textAlign: TextAlign.start,
       ),
     );
     cubit.creatAppBarInfo(appBar.preferredSize.height);
-
-    return Navigator(
-      onGenerateRoute: (RouteSettings settings) {
-        return new MaterialPageRoute(
-            settings: settings,
-            builder: (BuildContext context) {
-              return Scaffold(
-                appBar: appBar,
-                body: PageView(
-                  allowImplicitScrolling: true,
-                  pageSnapping: false,
-                  physics: NeverScrollableScrollPhysics(),
-                  controller: _pageController,
-                  children: [
-                    PageContracts(),
-                    PageHistory(),
-                    PageNew(),
-                    PageSaved(),
-                    PageProfile(),
-                    SingleItem(),
-                  ],
+    return StreamBuilder(
+      stream: _bloc.updater,
+      initialData: _bloc.dateList,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        print(snapshot.data[0].toString());
+        return Container(
+          child: (Scaffold(
+            body: PageView(
+              allowImplicitScrolling: true,
+              pageSnapping: false,
+              physics: NeverScrollableScrollPhysics(),
+              controller: pageController,
+              children: [
+                PageContracts(
+                  bloc: _bloc,
+                  controller: pageController,
+                  snapshot: snapshot,
                 ),
-                bottomNavigationBar: BottomNavigationBar(
-                  type: BottomNavigationBarType.fixed,
-                  selectedItemColor: HexColor('#F2F2F2'),
-                  unselectedItemColor: HexColor('#A6A6A6'),
-                  unselectedIconTheme:
-                      IconThemeData(color: HexColor('#A6A6A6')),
-                  currentIndex: navBarIndex,
-                  onTap: (int newIndex) {
-                    setState(() {
-                      _pageController.jumpToPage(newIndex);
-                      // _pageController.animateToPage(newIndex,
-                      //     duration: Duration(milliseconds: 500),
-                      //     curve: Curves.easeIn);
-                      navBarIndex = newIndex;
-                    });
-                  },
-                  items: [
-                    BottomNavigationBarItem(
-                      activeIcon: Icon(
-                        BillingIcons.document_filled,
-                      ),
-                      icon: Icon(
-                        BillingIcons.document,
-                      ),
-                      label: 'Contracts',
+                PageHistory(),
+                PageNew(
+                  body: AddContract(),
+                ),
+                PageSaved(),
+                PageProfile(),
+                SingleItem(),
+                DateFilter(
+                  bloc: _bloc,
+                  snapshot: snapshot,
+                  controller: pageController,
+                ),
+                PageNew(
+                  body: AddInvoice(),
+                ),
+              ],
+            ),
+            bottomNavigationBar: BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+              selectedItemColor: HexColor('#F2F2F2'),
+              unselectedItemColor: HexColor('#A6A6A6'),
+              unselectedIconTheme: IconThemeData(color: HexColor('#A6A6A6')),
+              currentIndex: navBarIndex,
+              onTap: (int newIndex) {
+                if (newIndex == 2) {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext c) {
+                        return CreateDialogNew(
+                          ctr: pageController,
+                        );
+                      });
+                } else {
+                  setState(() {
+                    pageController.jumpToPage(newIndex);
+                    // _pageController.animateToPage(newIndex,
+                    //     duration: Duration(milliseconds: 500),
+                    //     curve: Curves.easeIn);
+                    data.updateIndex(newIndex);
+                  });
+                }
+              },
+              items: [
+                BottomNavigationBarItem(
+                  activeIcon: Icon(
+                    BillingIcons.document_filled,
+                  ),
+                  icon: Icon(
+                    BillingIcons.document,
+                  ),
+                  label: 'home.contracts'.tr(),
+                ),
+                BottomNavigationBarItem(
+                    activeIcon: Icon(
+                      BillingIcons.clock_filled,
                     ),
-                    BottomNavigationBarItem(
-                        activeIcon: Icon(
-                          BillingIcons.clock_filled,
-                        ),
-                        icon: Icon(BillingIcons.clock),
-                        label: 'History'),
-                    BottomNavigationBarItem(
-                        activeIcon: Icon(BillingIcons.plus_filled),
-                        icon: Icon(BillingIcons.plus),
-                        label: 'New'),
-                    BottomNavigationBarItem(
-                        activeIcon: Icon(
-                          BillingIcons.bookmark_filled,
-                        ),
-                        icon: Icon(
-                          BillingIcons.bookmark,
-                        ),
-                        label: 'Saved'),
-                    BottomNavigationBarItem(
-                        activeIcon: Icon(BillingIcons.profile_filled),
-                        icon: Icon(BillingIcons.profile),
-                        label: 'Profile'),
-                  ],
-                ),
-              );
-            });
+                    icon: Icon(BillingIcons.clock),
+                    label: 'home.history'.tr()),
+                BottomNavigationBarItem(
+                    activeIcon: Icon(BillingIcons.plus_filled),
+                    icon: Icon(BillingIcons.plus),
+                    label: 'home.new'.tr()),
+                BottomNavigationBarItem(
+                    activeIcon: Icon(
+                      BillingIcons.bookmark_filled,
+                    ),
+                    icon: Icon(
+                      BillingIcons.bookmark,
+                    ),
+                    label: 'home.saved'.tr()),
+                BottomNavigationBarItem(
+                    activeIcon: Icon(BillingIcons.profile_filled),
+                    icon: Icon(BillingIcons.profile),
+                    label: 'home.profile'.tr()),
+              ],
+            ),
+          )),
+        );
       },
     );
   }

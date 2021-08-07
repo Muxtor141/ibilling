@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:ibilling/components/billing_icons_icons.dart';
 
 class EmptyIndicator extends StatelessWidget {
   final IconData icon;
@@ -40,7 +38,7 @@ class EmptyIndicator extends StatelessWidget {
             height: sizeQuery.height * 0.03,
             width: sizeQuery.width,
             child: Text(
-              'No $textType are made',
+              textType,
               textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
                   fontSize: 14,

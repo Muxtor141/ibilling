@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:ibilling/bloc/data_bloc.dart';
 import 'package:ibilling/pages/single/delete_dialog.dart';
+import 'package:ibilling/services/events_cubit.dart';
 
 class SingleItemCard extends StatefulWidget {
   SingleItemCard({Key? key}) : super(key: key);

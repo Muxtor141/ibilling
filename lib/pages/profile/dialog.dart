@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:ibilling/bloc/data_bloc.dart';
-import 'package:ibilling/components/billing_icons_icons.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:ibilling/services/events_cubit.dart';
 
 class LanguageDialog extends StatefulWidget {
   LanguageDialog({Key? key}) : super(key: key);
@@ -12,11 +12,12 @@ class LanguageDialog extends StatefulWidget {
 }
 
 class _LanguageDialogState extends State<LanguageDialog> {
-  int radioindex = 0;
+  var language = LanguageChanger();
+  Locale radioindex = Locale('en', "US");
 
-  changeIndex(int? number) {
+  changeIndex(Locale? locale) {
     setState(() {
-      radioindex = number!;
+      radioindex = locale!;
     });
   }
 
@@ -59,7 +60,7 @@ class _LanguageDialogState extends State<LanguageDialog> {
                     color: HexColor('#4D008F7F'),
                     onPressed: () {},
                     child: Text(
-                      'Cancel',
+                      'contractItem.cancel'.tr(),
                       style: GoogleFonts.poppins(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
@@ -79,10 +80,11 @@ class _LanguageDialogState extends State<LanguageDialog> {
                         borderRadius: BorderRadius.circular(6)),
                     color: HexColor('#008F7F'),
                     onPressed: () {
+                      language.updateLanguage(radioindex, context);
                       Navigator.pop(context);
                     },
                     child: Text(
-                      'Done',
+                      'contractItem.done'.tr(),
                       style: style,
                     ),
                   ),
@@ -182,19 +184,19 @@ class _LanguageDialogState extends State<LanguageDialog> {
               children: [
                 Radio(
                   activeColor: HexColor('#008F7F'),
-                  value: 1,
+                  value: Locale('uz', "UZ"),
                   groupValue: radioindex,
                   onChanged: changeIndex,
                 ),
                 Radio(
                   activeColor: HexColor('#008F7F'),
-                  value: 2,
+                  value: Locale('ru', "RU"),
                   groupValue: radioindex,
                   onChanged: changeIndex,
                 ),
                 Radio(
                   activeColor: HexColor('#008F7F'),
-                  value: 3,
+                  value: Locale('en', "US"),
                   groupValue: radioindex,
                   onChanged: changeIndex,
                 ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:ibilling/services/fetching/networking_bloc.dart';
 
 class RadioFilters extends StatefulWidget {
   const RadioFilters({Key? key}) : super(key: key);
@@ -11,6 +12,7 @@ class RadioFilters extends StatefulWidget {
 }
 
 class _RadioFiltersState extends State<RadioFilters> {
+  final _bloc = FetchDataBloc();
   TextStyle style = GoogleFonts.ubuntu(
       fontSize: 15,
       fontWeight: FontWeight.w500,
@@ -30,7 +32,7 @@ class _RadioFiltersState extends State<RadioFilters> {
               });
             },
             child: Text(
-              'hello'.tr(),
+              'home.contracts'.tr(),
               style: style,
             ),
             style: OutlinedButton.styleFrom(
@@ -50,7 +52,7 @@ class _RadioFiltersState extends State<RadioFilters> {
               });
             },
             child: Text(
-              'Invoice',
+              'contracts.invoiceBt'.tr(),
               style: style,
             ),
             style: OutlinedButton.styleFrom(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ibilling/bloc/data_bloc.dart';
+import 'package:ibilling/services/events_cubit.dart';
 
 class DeleteDialog extends StatelessWidget {
   const DeleteDialog({Key? key}) : super(key: key);

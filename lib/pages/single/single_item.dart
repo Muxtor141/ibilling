@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:ibilling/bloc/data_bloc.dart';
 import 'package:ibilling/components/contract_item.dart';
 import 'package:ibilling/pages/single/single_item_card.dart';
+import 'package:ibilling/services/events_cubit.dart';
 
 class SingleItem extends StatefulWidget {
   SingleItem({Key? key}) : super(key: key);
@@ -34,7 +32,15 @@ class _SingleItemState extends State<SingleItem> {
                       ? SingleItemCard()
                       : Container(
                           margin: EdgeInsets.only(top: heightQuery * 0.0147),
-                          child: ContractItem());
+                          child: ContractItem(
+                            date: DateTime.parse("2021-02-05 14:40:00"),
+                            status: "Rejected by Payme",
+                            contractNumber: 179,
+                            amount: "1,200,200 UZS",
+                            invoices: 4,
+                            lastInvoice: 143,
+                            name: "Umida Azizova",
+                          ));
                 }),
           ),
         ),

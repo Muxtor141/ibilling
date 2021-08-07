@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:ibilling/bloc/data_bloc.dart';
 import 'package:ibilling/components/billing_icons_icons.dart';
+import 'package:ibilling/services/events_cubit.dart';
 
-class CreateDialog extends StatelessWidget {
+class CreateDialogNew extends StatelessWidget {
+  final PageController ctr;
+
+  CreateDialogNew({Key? key, required this.ctr}) : super(key: key);
+
   final style = GoogleFonts.ubuntu(
       fontWeight: FontWeight.w500,
       fontSize: 16,
       fontStyle: FontStyle.normal,
       color: HexColor('#E7E7E7'));
+
   BoxDecoration deco = BoxDecoration(
       color: HexColor('#664E4E4E'), borderRadius: BorderRadius.circular(4));
-
   @override
   Widget build(BuildContext context) {
     final sizeQuery = MediaQuery.of(context).size;
@@ -34,58 +38,72 @@ class CreateDialog extends StatelessWidget {
         height: heightQuery * 0.128,
         child: Column(
           children: [
-            Container(
-              height: heightQuery * 0.0565,
-              width: sizeQuery.width * 0.76,
-              decoration: deco,
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: sizeQuery.width * 0.058,
-                  ),
-                  Icon(
-                    BillingIcons.document_filled,
-                    color: HexColor('#00A795'),
-                  ),
-                  SizedBox(
-                    width: sizeQuery.width * 0.04,
-                  ),
-                  Text(
-                    'Contract',
-                    style: style,
-                  ),
-                ],
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+                ctr.jumpToPage(2);
+              },
+              child: Container(
+                height: heightQuery * 0.0565,
+                width: sizeQuery.width * 0.76,
+                decoration: deco,
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: sizeQuery.width * 0.058,
+                    ),
+                    Icon(
+                      BillingIcons.document_filled,
+                      color: HexColor('#00A795'),
+                    ),
+                    SizedBox(
+                      width: sizeQuery.width * 0.04,
+                    ),
+                    Text(
+                      'Contract',
+                      style: style,
+                    ),
+                  ],
+                ),
               ),
             ),
             SizedBox(
               height: heightQuery * 0.0147,
             ),
-            Container(
-              height: heightQuery * 0.0565,
-              width: sizeQuery.width * 0.76,
-              decoration: deco,
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: sizeQuery.width * 0.058,
-                  ),
-                  Icon(
-                    BillingIcons.document_filled,
-                    color: HexColor('#00A795'),
-                  ),
-                  SizedBox(
-                    width: sizeQuery.width * 0.04,
-                  ),
-                  Text(
-                    'Invoice',
-                    style: style,
-                  ),
-                ],
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+                ctr.jumpToPage(7);
+              },
+              child: Container(
+                height: heightQuery * 0.0565,
+                width: sizeQuery.width * 0.76,
+                decoration: deco,
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: sizeQuery.width * 0.058,
+                    ),
+                    Icon(
+                      BillingIcons.document_filled,
+                      color: HexColor('#00A795'),
+                    ),
+                    SizedBox(
+                      width: sizeQuery.width * 0.04,
+                    ),
+                    Text(
+                      'Invoice',
+                      style: style,
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
         ),
       ),
     );
+
+    // bloc
   }
 }

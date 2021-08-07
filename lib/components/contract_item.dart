@@ -1,13 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ibilling/components/billing_icons_icons.dart';
 
 class ContractItem extends StatelessWidget {
-  const ContractItem({Key? key}) : super(key: key);
+  final String name;
+  final String amount;
+  final int invoices;
+  final int lastInvoice;
+  final int contractNumber;
+  final DateTime date;
+  final String status;
+  const ContractItem(
+      {Key? key,
+      required this.amount,
+      required this.date,
+      required this.status,
+      required this.invoices,
+      required this.name,
+      required this.contractNumber,
+      required this.lastInvoice})
+      : super(key: key);
+
+  Color getTextColor() {
+    if (status == "Rejected by IQ") {
+      return Color(0xFFF85379);
+    }
+    if (status == "In Process") {
+      return Color(0xFFFDAB2A);
+    }
+    if (status == "Rejected by Payme") {
+      return Color(0xFFFF426D);
+    } else {
+      return Color(0xFF49B7A5);
+    }
+  }
+
+  Color getBoxColor() {
+    if (status == "Rejected by IQ") {
+      return Color(0x26F85379);
+    }
+    if (status == "In Process") {
+      return Color(0x26FDAB2A);
+    }
+    if (status == "Rejected by Payme") {
+      return Color(0x26FF426D);
+    } else {
+      return Color(0x2649B7A5);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    var rDate = date;
+    var day = rDate.day < 10 ? "   0${rDate.day}" : rDate.day;
+    var month = rDate.month < 10 ? "0" + rDate.month.toString() : rDate.month;
     double textSize = 14;
     double spaceBetween = 0.007;
     final sizeQuery = MediaQuery.of(context).size;
@@ -21,7 +69,6 @@ class ContractItem extends StatelessWidget {
         fontSize: 14,
         fontStyle: FontStyle.normal,
         color: HexColor('#E7E7E7'));
-
     return Container(
       decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
@@ -45,7 +92,7 @@ class ContractItem extends StatelessWidget {
                 width: sizeQuery.width * 0.012,
               ),
               Text(
-                '№ 256',
+                '№ $contractNumber',
                 style: localStyle,
               ),
               Spacer(),
@@ -54,12 +101,11 @@ class ContractItem extends StatelessWidget {
                     EdgeInsets.only(left: 10, right: 10, top: 2, bottom: 2),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  color: HexColor('#2649B7A5'),
+                  color: getBoxColor(),
                 ),
                 child: Text(
-                  'Rejected by Payme',
-                  style:
-                      TextStyle(fontSize: textSize, color: HexColor('#49B7A5')),
+                  'filter.${status.toLowerCase().replaceAll(" ", "")}'.tr(),
+                  style: TextStyle(fontSize: textSize, color: getTextColor()),
                 ),
               ),
               SizedBox(
@@ -74,9 +120,11 @@ class ContractItem extends StatelessWidget {
             children: [
               RichText(
                 text: TextSpan(children: [
-                  TextSpan(text: "Fish:  ", style: localStyle),
                   TextSpan(
-                    text: "Yoldosheva Ziyoda",
+                      text: "${"contractItem.name".tr()}:  ",
+                      style: localStyle),
+                  TextSpan(
+                    text: name,
                     style: dataStyle,
                   ),
                 ]),
@@ -92,11 +140,11 @@ class ContractItem extends StatelessWidget {
                 textAlign: TextAlign.start,
                 text: TextSpan(children: [
                   TextSpan(
-                    text: "Amount:  ",
+                    text: "${"contractItem.amount".tr()}:  ",
                     style: localStyle,
                   ),
                   TextSpan(
-                    text: "2,200,000 UZS",
+                    text: amount,
                     style: dataStyle,
                   ),
                 ])),
@@ -110,11 +158,11 @@ class ContractItem extends StatelessWidget {
                 textAlign: TextAlign.start,
                 text: TextSpan(children: [
                   TextSpan(
-                    text: "Last invoice:  ",
+                    text: "${"contractItem.invoice".tr()}:  ",
                     style: localStyle,
                   ),
                   TextSpan(
-                    text: "№ 256",
+                    text: "№ $lastInvoice",
                     style: dataStyle,
                   ),
                 ])),
@@ -127,11 +175,11 @@ class ContractItem extends StatelessWidget {
               RichText(
                 text: TextSpan(children: [
                   TextSpan(
-                    text: "Number of invoices:  ",
+                    text: "${"contractItem.invoices".tr()}:  ",
                     style: localStyle,
                   ),
                   TextSpan(
-                    text: "20",
+                    text: invoices.toString(),
                     style: dataStyle,
                   ),
                 ]),
@@ -140,7 +188,7 @@ class ContractItem extends StatelessWidget {
                 width: sizeQuery.width * 0.25,
               ),
               Text(
-                '30.01.2021',
+                "$day.$month.${rDate.year}",
                 style: dataStyle,
               )
             ],

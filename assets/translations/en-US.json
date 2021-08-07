@@ -1,3 +1,87 @@
 {
-    "hello":"hi"
+    "home":{
+        "contracts":"Conracts",
+        "history":"History",
+        "new":"New",
+        "saved":"Saved",
+        "profile":"Profile",
+        "date":"Date",
+        "status":"Status"
+        
+    },
+    "contracts":{        
+        "invoiceBt":"Invoice",              
+        "contracts":"Contracts",
+        "invoice":"Invoices",
+        "weekDays":{
+            "monday":"Mo",
+            "tuesday":"Tu",
+            "wednesday":"We",
+            "thursday":"Th",
+            "friday":"Fr",
+            "saturday":"Sa",
+            "sunday":"Su"
+        },
+"month":{
+    "august":"August"
+
+}
+
+    },
+    "filter":{
+        "cancel":"Cancel",
+        "apply":"Apply filters",
+        "paid":"Paid",
+        "inprocess":"In process",
+        "rejectedbyiq":"Rejected by IQ",
+        "rejectedbypayme":"Rejected by Payme",
+        "filters":"Filters"
+    },
+    "profile":{
+        "birth":"Date of birth",
+        "phone":"Phone number",
+        "mail":"E-mail",
+        "profile":"Profile"
+    },
+    "newContract":{
+        "create":"What you want to create",
+        "new contract":"New contract",
+        "invididual":"Individual",
+        "citizen":"Citizen",
+        "legal":"Yuridik",
+        "name":"Fisher's full name",
+        "address":"Address of the organization",
+        "INT":"ITN/IEC of the organization",
+        "status":"Status of the contract"
+
+    },
+    "newInvoice":{
+        "service":"Name of the service",
+        "amount":"Amount of the invoice",
+        "status":"Status of the invoice",
+        "new":"New Invoice"
+    },
+    "contractItem":{
+        "name":"Fish",
+        "amount":"Amount",
+        "invoice":"Last invoice",
+        "invoices":"Number of invoices",
+        "created":"Created at",
+        "delete":"Delete contract",
+        "create":"Create contract",
+        "extra":"Other contracts with \n Yoldosheva Feruza",
+        "comment":"Leave a comment,why are you \n       deleting this contract",
+        "cancel":"Cancel",
+        "done":"Done"
+    },
+    "empty":{
+        "saved":"No saved contracts",
+        "contracts":"No contracts are made",
+        "history":"No history for this period"
+    }
+    
+
+    
+
+
 }
