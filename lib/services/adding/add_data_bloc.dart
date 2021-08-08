@@ -26,6 +26,7 @@ class CreateContractBloc extends Bloc<ControllerTextEvent, List> {
       texts[0] = event.text;
 
       yield texts;
+      print("$texts FROM SETPERSON");
     }
     if (event is SetPaidStatus) {
       texts[1] = event.text;

@@ -19,6 +19,9 @@ class _AddInvoiceState extends State<AddInvoice> {
   final _bloc = CreateContractBloc();
   final _cubit = RadioStatus();
   final TextEditingController _status = TextEditingController();
+  final TextEditingController _service = TextEditingController();
+  final TextEditingController _name = TextEditingController();
+  final TextEditingController _address = TextEditingController();
 
   static const statusList = <String>[
     "Paid",
@@ -112,7 +115,7 @@ class _AddInvoiceState extends State<AddInvoice> {
             Row(
               children: [
                 Text(
-                  'Individual',
+                  'Xizmat nomi',
                   style: style,
                 ),
               ],
@@ -122,6 +125,7 @@ class _AddInvoiceState extends State<AddInvoice> {
               decoration: newDecoration,
               height: heightQuery * 0.054,
               child: TextField(
+                controller: _service,
                 decoration: InputDecoration(
                     border: decoration,
                     suffixIcon: IconButton(
@@ -147,6 +151,7 @@ class _AddInvoiceState extends State<AddInvoice> {
               decoration: newDecoration,
               height: heightQuery * 0.054,
               child: TextField(
+                controller: _name,
                 decoration: InputDecoration(
                   border: decoration,
                 ),
@@ -166,6 +171,7 @@ class _AddInvoiceState extends State<AddInvoice> {
               decoration: newDecoration,
               height: heightQuery * 0.054,
               child: TextField(
+                controller: _address,
                 decoration: InputDecoration(
                   border: decoration,
                 ),

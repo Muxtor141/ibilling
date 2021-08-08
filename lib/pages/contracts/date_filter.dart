@@ -1,23 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:ibilling/components/billing_icons_icons.dart';
 import 'package:ibilling/services/date/date_bloc.dart';
 import 'package:ibilling/services/date/date_event.dart';
+import 'package:ibilling/services/fetching/networking_bloc.dart';
 import 'package:jiffy/jiffy.dart';
 
 class DateFilter extends StatefulWidget {
-  final AsyncSnapshot snapshot;
-  final DateUpdateBloc bloc;
   final PageController controller;
-
-  const DateFilter(
-      {Key? key,
-      required this.controller,
-      required this.bloc,
-      required this.snapshot})
-      : super(key: key);
+  const DateFilter({Key? key, required this.controller}) : super(key: key);
 
   @override
   _DateFilterState createState() => _DateFilterState();
@@ -86,88 +80,64 @@ class _DateFilterState extends State<DateFilter> {
           },
         ),
       ),
-      body: Container(
-        child: Column(
-          children: [
-            SizedBox(
-              height: heightQuery * 0.0343,
-            ),
-            Row(
+      body: BlocConsumer<DateUpdateBloc2, List>(
+        listener: (context, state) {},
+        builder: (context, list) {
+          return Container(
+            child: Column(
               children: [
                 SizedBox(
-                  width: sizeQuery.width * 0.037,
+                  height: heightQuery * 0.0343,
                 ),
-                Text(
-                  'home.status'.tr(),
-                  style: GoogleFonts.ubuntu(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 14,
-                      color: Color(0xFF999999)),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: heightQuery * 0.022,
-            ),
-            Container(
-              child: Row(
-                children: [
-                  Container(
-                    width: sizeQuery.width * 0.4,
-                    child: Row(
-                      children: [
-                        Checkbox(
-                          // title: Text('Paid'),
-                          activeColor: Color(0xFFF2F2F2),
-                          checkColor: Colors.black,
-                          value: true,
-                          onChanged: (bool? num) {},
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(6),
-                              side: BorderSide(color: Color(0xFFA6A6A6))),
-                        ),
-                        SizedBox(
-                          width: sizeQuery.width * 0.027,
-                        ),
-                        Text(
-                          'filter.paid'.tr(),
-                          style: style,
-                        ),
-                      ],
+                Row(
+                  children: [
+                    SizedBox(
+                      width: sizeQuery.width * 0.037,
                     ),
-                  ),
-                  Checkbox(
-                    // title: Text('Paid'),
-                    activeColor: Color(0xFFF2F2F2),
-                    checkColor: Colors.black,
-                    value: true,
-                    onChanged: (bool? num) {},
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        side: BorderSide(color: Color(0xFFA6A6A6))),
-                  ),
-                  SizedBox(
-                    width: sizeQuery.width * 0.027,
-                  ),
-                  Text(
-                    'filter.rejectIQ'.tr(),
-                    style: styleGrey,
-                  ),
-                ],
-              ),
-            ),
-            Row(
-              children: [
+                    Text(
+                      'home.status'.tr(),
+                      style: GoogleFonts.ubuntu(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 14,
+                          color: Color(0xFF999999)),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: heightQuery * 0.022,
+                ),
                 Container(
-                  width: sizeQuery.width * 0.4,
                   child: Row(
                     children: [
+                      Container(
+                        width: sizeQuery.width * 0.4,
+                        child: Row(
+                          children: [
+                            Checkbox(
+                              // title: Text('Paid'),
+                              activeColor: Color(0xFFF2F2F2),
+                              checkColor: Colors.black,
+                              value: true,
+                              onChanged: (bool? num) {},
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(6),
+                                  side: BorderSide(color: Color(0xFFA6A6A6))),
+                            ),
+                            SizedBox(
+                              width: sizeQuery.width * 0.027,
+                            ),
+                            Text(
+                              'filter.paid'.tr(),
+                              style: style,
+                            ),
+                          ],
+                        ),
+                      ),
                       Checkbox(
-                        side: BorderSide(color: Color(0xFFA6A6A6)),
                         // title: Text('Paid'),
                         activeColor: Color(0xFFF2F2F2),
-                        checkColor: Colors.red,
-                        value: false,
+                        checkColor: Colors.black,
+                        value: true,
                         onChanged: (bool? num) {},
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(6),
@@ -177,205 +147,238 @@ class _DateFilterState extends State<DateFilter> {
                         width: sizeQuery.width * 0.027,
                       ),
                       Text(
-                        'filter.process'.tr(),
+                        'filter.rejectIQ'.tr(),
                         style: styleGrey,
                       ),
                     ],
                   ),
                 ),
-                Checkbox(
-                  // title: Text('Paid'),
-                  activeColor: Color(0xFFF2F2F2),
-                  checkColor: Colors.black,
-                  value: true,
-                  onChanged: (bool? num) {},
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6),
-                      side: BorderSide(color: Color(0xFFA6A6A6))),
-                ),
-                SizedBox(
-                  width: sizeQuery.width * 0.027,
-                ),
-                Text(
-                  'filter.rejectPayme'.tr(),
-                  style: styleGrey,
-                ),
-              ],
-            ),
-            SizedBox(
-              width: sizeQuery.width * 0.094,
-            ),
-            Row(
-              children: [
-                SizedBox(
-                  width: sizeQuery.width * 0.047,
-                ),
-                Text(
-                  'home.date'.tr(),
-                  style: GoogleFonts.ubuntu(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 14,
-                      color: Color(0xFF999999)),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: heightQuery * 0.02,
-            ),
-            StreamBuilder(
-              stream: _bloc.updater,
-              initialData: _bloc.dateList,
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                return Container(
-                  child: Row(children: [
-                    SizedBox(
-                      width: sizeQuery.width * 0.037,
-                    ),
+                Row(
+                  children: [
                     Container(
-                      padding: EdgeInsets.only(left: 5, right: 2),
-                      decoration: box,
+                      width: sizeQuery.width * 0.4,
                       child: Row(
-                        //startDate start
                         children: [
-                          Text(
-                            "${widget.snapshot.data[0].day}.${widget.snapshot.data[0].month}.${widget.snapshot.data[0].year}",
-                            style: style,
+                          Checkbox(
+                            side: BorderSide(color: Color(0xFFA6A6A6)),
+                            // title: Text('Paid'),
+                            activeColor: Color(0xFFF2F2F2),
+                            checkColor: Colors.red,
+                            value: false,
+                            onChanged: (bool? num) {},
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(6),
+                                side: BorderSide(color: Color(0xFFA6A6A6))),
                           ),
-                          IconButton(
-                              onPressed: () {
-                                showDatePicker(
-                                        confirmText: "oK",
-                                        context: context,
-                                        builder: (context, widget) {
-                                          return DatePickerDialog(
-                                              initialDate: Jiffy().dateTime,
-                                              firstDate: Jiffy([2019, 02, 19])
-                                                  .dateTime,
-                                              lastDate: DateTime(2022, 2, 06));
-                                        },
-                                        initialDate: DateTime.now(),
-                                        firstDate: DateTime(2017, 2, 06),
-                                        lastDate: DateTime(2022, 2, 06))
-                                    .then((value) {
-                                  startDate = value!;
-
-                                  print('${value.day} PICKER CLOSED');
-                                });
-                              },
-                              icon: Icon(
-                                BillingIcons.calendar,
-                                size: 16,
-                                color: Color(0xFFDADADA),
-                              )),
+                          SizedBox(
+                            width: sizeQuery.width * 0.027,
+                          ),
+                          Text(
+                            'filter.process'.tr(),
+                            style: styleGrey,
+                          ),
                         ],
-                      ), //startDate end
+                      ),
                     ),
-                    IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.arrow_right,
-                          color: Colors.white,
-                        )),
-                    Container(
-                        padding: EdgeInsets.only(left: 5, right: 2),
-                        decoration: box, //endDate start
-                        child: Row(
-                          children: [
-                            Text(
-                              "${widget.snapshot.data[1].day}.${widget.snapshot.data[1].month}.${widget.snapshot.data[1].year}",
-                              style: style,
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                showDatePicker(
-                                        confirmText: "Ok",
-                                        context: context,
-                                        builder: (context, widget) {
-                                          return DatePickerDialog(
-                                              initialDate: Jiffy().dateTime,
-                                              firstDate: Jiffy([2019, 02, 19])
-                                                  .dateTime,
-                                              lastDate: DateTime(2022, 2, 06));
-                                        },
-                                        initialDate: DateTime.now(),
-                                        firstDate: DateTime(2017, 2, 06),
-                                        lastDate: DateTime(2022, 2, 06))
-                                    .then((value) {
-                                  endDate = value!;
-
-                                  print('${value.day} PICKER CLOSED');
-                                });
-                              },
-                              icon: Icon(
-                                BillingIcons.calendar,
-                                size: 16,
-                                color: Color(0xFFDADADA),
-                              ),
-                            ),
-                          ],
-                        ))
-                  ]),
-                );
-              },
-            ),
-            Spacer(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+                    Checkbox(
+                      // title: Text('Paid'),
+                      activeColor: Color(0xFFF2F2F2),
+                      checkColor: Colors.black,
+                      value: true,
+                      onChanged: (bool? num) {},
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          side: BorderSide(color: Color(0xFFA6A6A6))),
+                    ),
+                    SizedBox(
+                      width: sizeQuery.width * 0.027,
+                    ),
+                    Text(
+                      'filter.rejectPayme'.tr(),
+                      style: styleGrey,
+                    ),
+                  ],
+                ),
                 SizedBox(
-                  width: sizeQuery.width * 0.45,
-                  height: sizeQuery.height * 0.045,
-                  child: MaterialButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6)),
-                    color: HexColor('#4D008F7F'),
-                    onPressed: () {},
-                    child: Text(
-                      'filter.cancel'.tr(),
-                      style: GoogleFonts.poppins(
+                  width: sizeQuery.width * 0.094,
+                ),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: sizeQuery.width * 0.047,
+                    ),
+                    Text(
+                      'home.date'.tr(),
+                      style: GoogleFonts.ubuntu(
+                          fontWeight: FontWeight.w700,
                           fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          fontStyle: FontStyle.normal,
-                          color: HexColor('#008F7F')),
+                          color: Color(0xFF999999)),
                     ),
-                  ),
+                  ],
                 ),
                 SizedBox(
-                  width: sizeQuery.width * 0.053,
+                  height: heightQuery * 0.02,
+                ),
+                StreamBuilder(
+                  stream: _bloc.updater,
+                  initialData: _bloc.dateList,
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    return Container(
+                      child: Row(children: [
+                        SizedBox(
+                          width: sizeQuery.width * 0.037,
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(left: 5, right: 2),
+                          decoration: box,
+                          child: Row(
+                            //startDate start
+                            children: [
+                              Text(
+                                "${list[0].day}.${list[0].month}.${list[0].year}",
+                                style: style,
+                              ),
+                              IconButton(
+                                  onPressed: () {
+                                    showDatePicker(
+                                            confirmText: "oK",
+                                            context: context,
+                                            builder: (context, widget) {
+                                              return DatePickerDialog(
+                                                  initialDate: Jiffy().dateTime,
+                                                  firstDate:
+                                                      Jiffy([2019, 02, 19])
+                                                          .dateTime,
+                                                  lastDate:
+                                                      DateTime(2022, 2, 06));
+                                            },
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2017, 2, 06),
+                                            lastDate: DateTime(2022, 2, 06))
+                                        .then((value) {
+                                      startDate = value!;
+
+                                      print('${value.day} PICKER CLOSED');
+                                    });
+                                  },
+                                  icon: Icon(
+                                    BillingIcons.calendar,
+                                    size: 16,
+                                    color: Color(0xFFDADADA),
+                                  )),
+                            ],
+                          ), //startDate end
+                        ),
+                        IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.arrow_right,
+                              color: Colors.white,
+                            )),
+                        Container(
+                            padding: EdgeInsets.only(left: 5, right: 2),
+                            decoration: box, //endDate start
+                            child: Row(
+                              children: [
+                                Text(
+                                  "${list[1].day}.${list[1].month}.${list[1].year}",
+                                  style: style,
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    showDatePicker(
+                                            confirmText: "Ok",
+                                            context: context,
+                                            builder: (context, widget) {
+                                              return DatePickerDialog(
+                                                  initialDate: Jiffy().dateTime,
+                                                  firstDate:
+                                                      Jiffy([2019, 02, 19])
+                                                          .dateTime,
+                                                  lastDate:
+                                                      DateTime(2022, 2, 06));
+                                            },
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2017, 2, 06),
+                                            lastDate: DateTime(2022, 2, 06))
+                                        .then((value) {
+                                      endDate = value!;
+
+                                      print('${value.day} PICKER CLOSED');
+                                    });
+                                  },
+                                  icon: Icon(
+                                    BillingIcons.calendar,
+                                    size: 16,
+                                    color: Color(0xFFDADADA),
+                                  ),
+                                ),
+                              ],
+                            ))
+                      ]),
+                    );
+                  },
+                ),
+                Spacer(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: sizeQuery.width * 0.45,
+                      height: sizeQuery.height * 0.045,
+                      child: MaterialButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6)),
+                        color: HexColor('#4D008F7F'),
+                        onPressed: () {},
+                        child: Text(
+                          'filter.cancel'.tr(),
+                          style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              fontStyle: FontStyle.normal,
+                              color: HexColor('#008F7F')),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: sizeQuery.width * 0.053,
+                    ),
+                    SizedBox(
+                      height: sizeQuery.height * 0.045,
+                      width: sizeQuery.width * 0.45,
+                      child: MaterialButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6)),
+                        color: HexColor('#008F7F'),
+                        onPressed: () {
+                          context
+                              .read<DateUpdateBloc2>()
+                              .add(ContractStartDate(startDate));
+                          print('$startDate START DATE from calendar');
+                          print('$endDate START DATE from calendar');
+
+                          context
+                              .read<DateUpdateBloc2>()
+                              .add(ContractEndDate(endDate));
+
+                          widget.controller.jumpToPage(0);
+                        },
+                        child: Text(
+                          'filter.apply'.tr(),
+                          style: style,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(
-                  height: sizeQuery.height * 0.045,
-                  width: sizeQuery.width * 0.45,
-                  child: MaterialButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6)),
-                    color: HexColor('#008F7F'),
-                    onPressed: () {
-                      widget.bloc.listUpdateEvent
-                          .add(ContractStartDate(startDate));
-                      print('$startDate START DATE from calendar');
-                      print('$endDate START DATE from calendar');
-                      widget.bloc.listUpdateEvent.add(ContractEndDate(endDate));
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text("Date updated!"),
-                          duration: Duration(
-                            seconds: 1,
-                          )));
-                      widget.controller.jumpToPage(0);
-                    },
-                    child: Text(
-                      'filter.apply'.tr(),
-                      style: style,
-                    ),
-                  ),
-                ),
+                  height: heightQuery * 0.0345,
+                )
               ],
             ),
-            SizedBox(
-              height: heightQuery * 0.0345,
-            )
-          ],
-        ),
+          );
+        },
       ),
     );
   }

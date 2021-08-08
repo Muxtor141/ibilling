@@ -44,8 +44,10 @@
         "profile":"Profil"
     },
     "newContract":{
+        "added":"Shartnoma saqlandi",
+        "addContract":"Shartnomani saqlash",
         "create":"Nima yaratishni istaysiz",
-        "new contract":"Yangi shartnoma",
+        "newContract":"Yangi shartnoma",
         "invididual":"Shaxs",
         "citizen":"Jismoniy",
         "legal":"Yuridik",
@@ -62,6 +64,9 @@
         "new":"Yangi Invoice"
     },
     "contractItem":{
+        "removed":"Shartnoma o'chirildi",
+        "status":"Status",
+        "address":"Manzil",
         "name":"Fish",
         "amount":"Summa",
         "invoice":"Oxirgi invoice",

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bloc/bloc.dart';
 import 'package:ibilling/services/date/date_event.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -38,5 +39,31 @@ class DateUpdateBloc {
     pref.setString("startDate", "${dateList[0].year}-$month-$day");
 
     print("$dateList FROM DATE BLOC");
+  }
+}
+
+class DateUpdateBloc2 extends Bloc<DateUpdateEvent, List> {
+  DateUpdateBloc2()
+      : super([DateTime.now(), DateTime.now().add(Duration(days: 30))]);
+
+  List<DateTime> dateList = [
+    DateTime.now(),
+    DateTime.now().add(Duration(days: 30))
+  ];
+
+  @override
+  Stream<List> mapEventToState(DateUpdateEvent event) async* {
+    if (event is ContractStartDate) {
+      dateList[0] = event.getDate();
+      yield dateList;
+    }
+    if (event is ContractEndDate) {
+      dateList[1] = event.getDate1();
+      yield dateList;
+    }
+
+    // var day = dateList[0].day < 10 ? "0${dateList[0].day}" : dateList[0].day;
+    // var month =
+    //     dateList[0].month < 10 ? "0${dateList[0].month}" : dateList[0].month;
   }
 }

@@ -4,6 +4,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:ibilling/components/billing_icons_icons.dart';
 import 'package:ibilling/components/contract_item.dart';
 import 'package:ibilling/services/events_cubit.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class PageHistory extends StatefulWidget {
   const PageHistory({Key? key}) : super(key: key);
@@ -70,7 +71,7 @@ class _PageHistoryState extends State<PageHistory> {
               margin: EdgeInsets.only(bottom: heightQuery * 0.017),
               width: sizeQuery.width * 0.916,
               child: Text(
-                'Date',
+                'home.date'.tr(),
                 style: style,
                 textAlign: TextAlign.start,
               ),

@@ -82,7 +82,7 @@ class FetchDataBloc {
     if (event is InvoiceOnly) {}
     if (event is GetData) {
       contractList = await fetchData(http.Client());
-      print("GET DATA EVENT");
+
       _inUpdater.add(contractList);
     }
     if (event is UpdateDate) {}
@@ -98,30 +98,35 @@ class FetchDataBloc {
       }).toList();
       _inUpdater.add(contractList1);
     }
-
-    print(contractList);
+    if (event is AddContractEvent) {
+      contractList.add(event.contract);
+      _inUpdater.add(contractList);
+    }
   }
 }
 
 class FetchDataBloc2 extends Bloc<ContractListUpdateEvent, List> {
   FetchDataBloc2() : super([]);
+
   List<ModelContract> contractList = [];
   List<ModelContract> contractList1 = [];
-
-  List<ModelContract> get filteredList {
-    return contractList;
-  }
+  bool special = false;
 
   @override
   Stream<List> mapEventToState(ContractListUpdateEvent event) async* {
     if (event is ContractOnly) {}
     if (event is InvoiceOnly) {}
     if (event is GetData) {
-      contractList = await fetchData(http.Client());
-      print("GET DATA EVENT");
+      contractList = await event.fetchData(http.Client());
       yield contractList;
     }
     if (event is UpdateDate) {}
+    if (event is DeleteContract) {
+      contractList.removeWhere((element) {
+        return element.contractNumber == event.contractNumber;
+      });
+      yield contractList;
+    }
     if (event is ContractsDayUpdate) {
       var contractList1 = contractList.where((element) {
         var day = event.getDate2().day;
@@ -133,28 +138,32 @@ class FetchDataBloc2 extends Bloc<ContractListUpdateEvent, List> {
             element.date.year == year;
       }).toList();
       yield contractList1;
+      print('$contractList1 AND $contractList from NEW');
+    }
+    if (event is AddContractEvent) {
+      contractList.add(event.contract);
+      yield contractList;
+      print(contractList[4].date.toString());
     }
   }
+}
 
-  Future<List<ModelContract>> fetchData(http.Client client) async {
-    final demoData = DemoData();
-    final response = await client
-        .get(Uri.parse("https://jsonplaceholder.typicode.com/albums/1"));
+class FetchSpecialDataBloc extends Bloc<ContractListUpdateEvent, List> {
+  FetchSpecialDataBloc() : super([]);
 
-    if (response.statusCode == 200) {
-      // var list = ModelContract.fromJson(jsonDecode(response.body));
-      var response1 = await demoData.getDemoData();
-      List<dynamic> list1 = jsonDecode(response1);
+  List<ModelContract> contractList = [];
 
-      List<ModelContract> newList = [];
-      for (var element in list1) {
-        element["created"] = DateTime.parse(element["created"]);
-        var contract = ModelContract.fromJson(element);
-        newList.add(contract);
-      }
-      return newList;
-    } else {
-      throw Exception("FAILED TO GET MOCK DATA");
+  @override
+  Stream<List> mapEventToState(ContractListUpdateEvent event) async* {
+    if (event is GetSpecificContract) {
+      List<ModelContract> specialList = [];
+      contractList = await event.fetchData(http.Client());
+      Timer(Duration(milliseconds: 100), () {
+        contractList = contractList.where((element) {
+          return element.name == event.name;
+        }).toList();
+      });
+      yield contractList;
     }
   }
 }

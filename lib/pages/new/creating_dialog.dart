@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:ibilling/components/billing_icons_icons.dart';
 import 'package:ibilling/services/events_cubit.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CreateDialogNew extends StatelessWidget {
   final PageController ctr;
@@ -28,7 +29,7 @@ class CreateDialogNew extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       title: Text(
-        'What you want to create',
+        'newContract.create'.tr(),
         textAlign: TextAlign.center,
         style: GoogleFonts.ubuntu(
             fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700),
@@ -60,7 +61,7 @@ class CreateDialogNew extends StatelessWidget {
                       width: sizeQuery.width * 0.04,
                     ),
                     Text(
-                      'Contract',
+                      'contracts.contracts'.tr(),
                       style: style,
                     ),
                   ],
@@ -92,7 +93,7 @@ class CreateDialogNew extends StatelessWidget {
                       width: sizeQuery.width * 0.04,
                     ),
                     Text(
-                      'Invoice',
+                      'contracts.invoiceBt'.tr(),
                       style: style,
                     ),
                   ],

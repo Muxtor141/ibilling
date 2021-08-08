@@ -4,6 +4,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:ibilling/home/home.dart';
+import 'package:ibilling/services/date/date_bloc.dart';
+import 'package:ibilling/services/events_cubit.dart';
 import 'package:ibilling/services/fetching/networking_bloc.dart';
 import 'package:mockito/annotations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -70,6 +72,16 @@ class MyApp extends StatelessWidget {
         body: MultiBlocProvider(providers: [
           BlocProvider<FetchDataBloc2>(
               create: (BuildContext c) => FetchDataBloc2()),
+          BlocProvider<DateUpdateBloc2>(
+              create: (BuildContext c) => DateUpdateBloc2()),
+          BlocProvider<SelectedDateCubit>(
+              create: (BuildContext c) => SelectedDateCubit()),
+          BlocProvider<CurrentSingleItemCubit>(
+              create: (BuildContext c) => CurrentSingleItemCubit()),
+          BlocProvider<FetchSpecialDataBloc>(
+              create: (BuildContext c) => FetchSpecialDataBloc()),
+          BlocProvider<LanguageChangerCubit>(
+              create: (BuildContext c) => LanguageChangerCubit())
         ], child: Home()),
       ),
     );

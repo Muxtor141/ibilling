@@ -1,9 +1,23 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ibilling/services/events_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ibilling/services/fetching/list_event.dart';
+import 'package:ibilling/services/fetching/networking_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class DeleteDialog extends StatelessWidget {
-  const DeleteDialog({Key? key}) : super(key: key);
+  final PageController controller;
+  final BuildContext context3;
+  final int contractIndex;
+  const DeleteDialog(
+      {Key? key,
+      required this.contractIndex,
+      required this.controller,
+      required this.context3})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,62 +29,74 @@ class DeleteDialog extends StatelessWidget {
     return AlertDialog(
       actions: [
         Container(
-          child: Row(
-            children: [
-              SizedBox(
-                width: sizeQuery.width * 0.037,
-              ),
-              Expanded(
-                child: Container(
-                  // width: sizeQuery.width * 0.3,
-                  // height: heightQuery * 0.049,
-                  child: MaterialButton(
-                    elevation: 0,
-                    onPressed: () {},
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6)),
-                    color: Color(0x26FF426D),
-                    child: Text(
-                      'Cancel',
-                      style: GoogleFonts.ubuntu(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 14,
-                          color: Color(0xFFFF426D)),
-                    ),
+            child: Row(
+          children: [
+            SizedBox(
+              width: sizeQuery.width * 0.037,
+            ),
+            Expanded(
+              child: Container(
+                // width: sizeQuery.width * 0.3,
+                // height: heightQuery * 0.049,
+                child: MaterialButton(
+                  elevation: 0,
+                  onPressed: () {},
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6)),
+                  color: Color(0x26FF426D),
+                  child: Text(
+                    'contractItem.cancel'.tr(),
+                    style: GoogleFonts.ubuntu(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 14,
+                        color: Color(0xFFFF426D)),
                   ),
                 ),
               ),
-              SizedBox(
-                width: sizeQuery.width * 0.032,
-              ),
-              Expanded(
-                child: Container(
-                  // width: sizeQuery.width * 0.3,
-                  // height: heightQuery * 0.049,
-                  child: MaterialButton(
-                    elevation: 0,
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6)),
-                    color: Color(0xFFFF426D),
-                    child: Text(
-                      'Done',
-                      style: GoogleFonts.ubuntu(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 14,
-                          color: Color(0xFFFDFDFD)),
-                    ),
+            ),
+            SizedBox(
+              width: sizeQuery.width * 0.032,
+            ),
+            Expanded(
+              child: Container(
+                // width: sizeQuery.width * 0.3,
+                // height: heightQuery * 0.049,
+                child: MaterialButton(
+                  elevation: 0,
+                  onPressed: () {
+                    context3
+                        .read<FetchDataBloc2>()
+                        .add(DeleteContract(contractIndex));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("contractItem.removed".tr()),
+                        duration: Duration(milliseconds: 1000),
+                      ),
+                    );
+                    Navigator.pop(context);
+
+                    Timer(Duration(seconds: 1), () {
+                      controller.jumpTo(0);
+                    });
+                  },
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6)),
+                  color: Color(0xFFFF426D),
+                  child: Text(
+                    'contractItem.done'.tr(),
+                    style: GoogleFonts.ubuntu(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 14,
+                        color: Color(0xFFFDFDFD)),
                   ),
                 ),
               ),
-              SizedBox(
-                width: sizeQuery.width * 0.037,
-              ),
-            ],
-          ),
-        )
+            ),
+            SizedBox(
+              width: sizeQuery.width * 0.037,
+            ),
+          ],
+        ))
       ],
       backgroundColor: Theme.of(context).cardColor,
       content: Container(

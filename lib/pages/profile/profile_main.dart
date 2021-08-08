@@ -14,6 +14,7 @@ class PageProfile extends StatefulWidget {
 }
 
 class _PageProfileState extends State<PageProfile> {
+  final _cubit = LanguageChangerCubit();
   final TextStyle style = GoogleFonts.ubuntu(
       fontSize: 14,
       fontWeight: FontWeight.w500,
@@ -26,7 +27,9 @@ class _PageProfileState extends State<PageProfile> {
       color: HexColor('#999999'));
 
   @override
+  @override
   Widget build(BuildContext context) {
+    _cubit.updateAlways(context);
     final cubitData = DataProvider();
     final sizeQuery = MediaQuery.of(context).size;
     final heightQuery = sizeQuery.height -

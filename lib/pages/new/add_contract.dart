@@ -1,15 +1,22 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:ibilling/components/billing_icons_icons.dart';
+import 'package:ibilling/models/contract_model.dart';
+import 'package:ibilling/pages/new/simple_textfield.dart';
+import 'package:ibilling/pages/new/special_textfield.dart';
 import 'package:ibilling/services/adding/add_data_bloc.dart';
 import 'package:ibilling/services/adding/radio_cubit.dart';
-import 'package:ibilling/services/events_cubit.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:ibilling/services/fetching/list_event.dart';
+import 'package:ibilling/services/fetching/networking_bloc.dart';
 
 class AddContract extends StatefulWidget {
-  AddContract({Key? key}) : super(key: key);
+  final PageController controller;
+  AddContract({Key? key, required this.controller}) : super(key: key);
 
   @override
   _AddContractState createState() => _AddContractState();
@@ -18,8 +25,19 @@ class AddContract extends StatefulWidget {
 class _AddContractState extends State<AddContract> {
   final _bloc = CreateContractBloc();
   final _cubit = RadioStatus();
-  final TextEditingController _individual = TextEditingController();
-  final TextEditingController _status = TextEditingController();
+  final TextEditingController _cIndividual = TextEditingController();
+  final TextEditingController _cStatus = TextEditingController();
+  final TextEditingController _cAddres = TextEditingController();
+  final TextEditingController _cName = TextEditingController();
+  final TextEditingController _cInn = TextEditingController();
+  final TextEditingController _cAmount = TextEditingController();
+  final _formKeyIndividual = GlobalKey<FormState>();
+  final _formKeyStatus = GlobalKey<FormState>();
+  final _formKeyAmount = GlobalKey<FormState>();
+  final _formKeyName = GlobalKey<FormState>();
+  final _formKeyInn = GlobalKey<FormState>();
+  final _formKeyAdress = GlobalKey<FormState>();
+
   static const shaxsList = <String>[
     "Jismoniy shaxs",
     "Yuridik shaxs",
@@ -53,36 +71,52 @@ class _AddContractState extends State<AddContract> {
       border: Border.all(color: Color(0x66F1F1F1)),
       borderRadius: BorderRadius.circular(4));
 
+  String? formValidate(String? text) {
+    if (text == null || text.isEmpty) {
+      return "Please fill this field";
+    } else {
+      return null;
+    }
+  }
+
+  String? specialFormValidate(String? text) {
+    if (text == null || text.isEmpty) {
+      return "Please select one of the choices";
+    } else {
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     String _individualValue = _cubit.state[0];
     String _statusValue = _cubit.state[1];
     final sizeQuery = MediaQuery.of(context).size;
-    _individual.text = _bloc.state[0];
-    _status.text = _bloc.state[1];
+    _cIndividual.text = _bloc.state[0];
+    _cStatus.text = _bloc.state[1];
 
     final List<PopupMenuItem<String>> _popUpMenu = shaxsList
-        .map((String element) => PopupMenuItem<String>(
+        .map(
+          (String element) => PopupMenuItem<String>(
             value: element,
-            child: GestureDetector(
-              onTap: () {},
-              child: Container(
-                width: sizeQuery.width,
-                child: Row(
-                  children: [
-                    Text(
-                      element,
-                      style: styleWhite,
-                    ),
-                    Spacer(),
-                    Radio(
-                        value: element,
-                        groupValue: _individualValue,
-                        onChanged: (String? newValue) {})
-                  ],
-                ),
+            child: Container(
+              width: sizeQuery.width,
+              child: Row(
+                children: [
+                  Text(
+                    element,
+                    style: styleWhite,
+                  ),
+                  Spacer(),
+                  Radio(
+                      value: element,
+                      groupValue: _individualValue,
+                      onChanged: (String? newValue) {})
+                ],
               ),
-            )))
+            ),
+          ),
+        )
         .toList();
 
     final List<PopupMenuItem<String>> _popUpMenuStatus = statusList
@@ -116,7 +150,7 @@ class _AddContractState extends State<AddContract> {
         onPressed: () {},
       ),
       title: Text(
-        'New Contract',
+        'newContract.newContract'.tr(),
         textAlign: TextAlign.start,
       ),
     );
@@ -129,11 +163,36 @@ class _AddContractState extends State<AddContract> {
     var textTop = SizedBox(
       height: heightQuery * 0.0196,
     );
+    print('ADD CONTRACTS BUILD');
+
+    bool validateAllFields() {
+      List<bool> validatesList = [
+        _formKeyAdress.currentState!.validate(),
+        _formKeyAmount.currentState!.validate(),
+        _formKeyName.currentState!.validate(),
+        _formKeyInn.currentState!.validate(),
+        _formKeyIndividual.currentState!.validate(),
+        _formKeyStatus.currentState!.validate(),
+      ];
+      int validIndex = 0;
+      for (var element in validatesList) {
+        if (element) {
+          validIndex++;
+        }
+      }
+      if (validIndex == 6) {
+        print("ALL ARE VALID");
+        return true;
+      } else {
+        print("NOT VALID");
+        return false;
+      }
+    }
 
     return Scaffold(
       appBar: appBar,
       body: Container(
-        color: Theme.of(context).scaffoldBackgroundColor,
+        color: Colors.black,
         padding: EdgeInsets.only(
             left: sizeQuery.width * 0.0426, right: sizeQuery.width * 0.0426),
         child: SingleChildScrollView(
@@ -145,158 +204,146 @@ class _AddContractState extends State<AddContract> {
               Row(
                 children: [
                   Text(
-                    'Individual',
+                    'newContract.invididual'.tr(),
                     style: style,
                   ),
                 ],
               ),
               textBottom,
-              Container(
-                decoration: newDecoration,
-                height: heightQuery * 0.054,
-                child: TextFormField(
-                    readOnly: true,
-                    style: TextStyle(color: Colors.white),
-                    controller: _individual,
-                    decoration: InputDecoration(
-                      border: decoration,
-                      suffixIcon: PopupMenuButton(
-                        onSelected: (String name) {
-                          _bloc.add(SetPersonStatus(name));
-                          Timer(Duration(milliseconds: 500), () {
-                            _cubit.updateIndividual(name);
-                            print(_cubit.state.toString());
-                            _individual.text = _bloc.state[0];
-                          });
-                        },
-                        offset: Offset(0, 40.0),
-                        icon: Icon(
-                          BillingIcons.arrow_down_circle,
-                          color: Color(0x66F1F1F1),
-                        ),
-                        itemBuilder: (BuildContext context) {
-                          return _popUpMenu;
-                        },
-                      ),
-                    )),
-              ),
+              ModalTextField(
+                  formKey: _formKeyIndividual,
+                  function: specialFormValidate,
+                  bloc: _bloc,
+                  cubit: _cubit,
+                  appbar: appBar,
+                  eventIndex: 0,
+                  menu: _popUpMenu,
+                  textController: _cIndividual),
               textTop,
               Row(
                 children: [
                   Text(
-                    'Fisher\'s full name',
+                    'newContract.name'.tr(),
                     style: style,
                   ),
                 ],
               ),
               textBottom,
-              Container(
-                decoration: newDecoration,
-                height: heightQuery * 0.054,
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: decoration,
-                  ),
-                ),
-              ),
+              SimpleTextField(
+                  formKey: _formKeyName,
+                  function: formValidate,
+                  appBar: appBar,
+                  icon: BillingIcons.stroke,
+                  controller: _cName),
               textTop,
               Row(
                 children: [
                   Text(
-                    'Address of organization',
+                    'contractItem.amount'.tr(),
                     style: style,
                   ),
                 ],
               ),
               textBottom,
-              Container(
-                decoration: newDecoration,
-                height: heightQuery * 0.054,
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: decoration,
-                  ),
-                ),
-              ),
+              SimpleTextField(
+                  formKey: _formKeyAmount,
+                  function: formValidate,
+                  appBar: appBar,
+                  icon: BillingIcons.stroke,
+                  controller: _cAmount),
               textTop,
               Row(
                 children: [
                   Text(
-                    'INN',
+                    'newContract.address'.tr(),
                     style: style,
                   ),
                 ],
               ),
               textBottom,
-              Container(
-                decoration: newDecoration,
-                height: heightQuery * 0.054,
-                child: TextField(
-                  decoration: InputDecoration(
-                      border: decoration,
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          BillingIcons.question_mark,
-                          color: HexColor('#66F1F1F1'),
-                        ),
-                        onPressed: () {},
-                      )),
-                ),
-              ),
+              SimpleTextField(
+                  formKey: _formKeyAdress,
+                  function: formValidate,
+                  appBar: appBar,
+                  icon: BillingIcons.stroke,
+                  controller: _cAddres),
               textTop,
               Row(
                 children: [
                   Text(
-                    'Status of contract',
+                    'newContract.INT'.tr(),
+                    style: style,
+                  ),
+                ],
+              ),
+              textBottom,
+              SimpleTextField(
+                  formKey: _formKeyInn,
+                  function: formValidate,
+                  appBar: appBar,
+                  icon: BillingIcons.question_mark,
+                  controller: _cInn),
+              textTop,
+              Row(
+                children: [
+                  Text(
+                    'newContract.status'.tr(),
                     style: style,
                     textAlign: TextAlign.start,
                   ),
                 ],
               ),
               textBottom,
-              Container(
-                  decoration: newDecoration,
-                  height: heightQuery * 0.054,
-                  child: TextFormField(
-                    style: TextStyle(color: Colors.white),
-                    readOnly: true,
-                    controller: _status,
-                    scrollPadding: EdgeInsets.only(bottom: 30),
-                    decoration: InputDecoration(
-                      border: decoration,
-                      suffixIcon: PopupMenuButton(
-                        onSelected: (String text) {
-                          _bloc.add(SetPaidStatus(text));
-                          Timer(Duration(milliseconds: 500), () {
-                            _cubit.updateStatus(text);
-                            _status.text = _bloc.state[1];
-                          });
-                        },
-                        offset: Offset(0, 40.0),
-                        icon: Icon(
-                          BillingIcons.arrow_down_circle,
-                          color: Color(0x66F1F1F1),
-                        ),
-                        itemBuilder: (BuildContext context) {
-                          return _popUpMenuStatus;
-                        },
-                      ),
-                    ),
-                  )),
+              ModalTextField(
+                  formKey: _formKeyStatus,
+                  function: specialFormValidate,
+                  bloc: _bloc,
+                  cubit: _cubit,
+                  appbar: appBar,
+                  eventIndex: 1,
+                  menu: _popUpMenuStatus,
+                  textController: _cStatus),
               textTop,
               textBottom,
-              MaterialButton(
-                padding: EdgeInsets.only(top: 15, bottom: 15),
-                onPressed: () {},
-                child: Text('Save contract',
-                    style: GoogleFonts.ubuntu(
-                        color: HexColor('#FDFDFD'),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16)),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6)),
-                color: HexColor('#008F7F'),
-                minWidth: sizeQuery.width * 0.94,
+              BlocConsumer<FetchDataBloc2, List>(
+                listener: (c, list) {},
+                builder: (context1, list) {
+                  return MaterialButton(
+                    padding: EdgeInsets.only(top: 15, bottom: 15),
+                    onPressed: () {
+                      if (validateAllFields()) {
+                        context1.read<FetchDataBloc2>().add(AddContractEvent(
+                            ModelContract(
+                                DateTime.now(),
+                                8,
+                                false,
+                                _cName.text,
+                                _cStatus.text,
+                                _cAddres.text,
+                                _cAmount.text,
+                                _cAmount.text,
+                                132,
+                                54)));
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("newContract.added".tr()),
+                          duration: Duration(milliseconds: 1000),
+                        ));
+                        Timer(Duration(milliseconds: 1000), () {
+                          widget.controller.jumpTo(0);
+                        });
+                      }
+                    },
+                    child: Text('newContract.addContract'.tr(),
+                        style: GoogleFonts.ubuntu(
+                            color: HexColor('#FDFDFD'),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6)),
+                    color: HexColor('#008F7F'),
+                    minWidth: sizeQuery.width * 0.94,
+                  );
+                },
               )
             ],
           ),

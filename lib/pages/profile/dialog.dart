@@ -12,7 +12,7 @@ class LanguageDialog extends StatefulWidget {
 }
 
 class _LanguageDialogState extends State<LanguageDialog> {
-  var language = LanguageChanger();
+  var language = LanguageChangerCubit();
   Locale radioindex = Locale('en', "US");
 
   changeIndex(Locale? locale) {
