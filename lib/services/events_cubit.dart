@@ -41,5 +41,10 @@ class CurrentSingleItemCubit extends Cubit<ModelContract> {
 
   void updateSingleItem(ModelContract contract) {
     emit(contract);
+   
   }
+   void updateSavedStatus() {
+      state.isSaved = !state.isSaved;
+      emit(state);
+    }
 }

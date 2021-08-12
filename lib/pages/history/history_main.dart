@@ -149,6 +149,7 @@ class _PageHistoryState extends State<PageHistory> {
                             left: sizeQuery.width * 0.042,
                             right: sizeQuery.width * 0.042),
                         child: ContractItem(
+                          isSaved: false,
                           date: DateTime.parse("2021-02-05 14:40:00"),
                           status: "Rejected by Payme",
                           contractNumber: 76,

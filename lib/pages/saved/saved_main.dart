@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:ibilling/components/billing_icons_icons.dart';
 import 'package:ibilling/components/contract_item.dart';
 import 'package:ibilling/services/events_cubit.dart';
+import 'package:ibilling/services/fetching/networking_bloc.dart';
 
 class PageSaved extends StatefulWidget {
   const PageSaved({Key? key}) : super(key: key);
@@ -64,26 +66,34 @@ class _PageSavedState extends State<PageSaved> {
               width: sizeQuery.width * 0.04,
             ),
             Expanded(
-              child: ListView.builder(
-                  addAutomaticKeepAlives: true,
-                  shrinkWrap: true,
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return Container(
-                        padding: EdgeInsets.only(
-                            top: heightQuery * 0.012,
-                            left: sizeQuery.width * 0.042,
-                            right: sizeQuery.width * 0.042),
-                        child: ContractItem(
-                          date: DateTime.parse("2021-02-05 14:40:00"),
-                          status: "Rejected by Payme",
-                          contractNumber: 283,
-                          amount: "1,200,200 UZS",
-                          invoices: 4,
-                          lastInvoice: 143,
-                          name: "Umida Azizova",
-                        ));
-                  }),
+              child: BlocConsumer<FetchDataBloc2, List>(
+                listener: (c, s) {},
+                builder: (context1, state) {
+                  var list = context1.read<FetchDataBloc2>().getSavedContract();
+
+                  return ListView.builder(
+                      addAutomaticKeepAlives: true,
+                      shrinkWrap: true,
+                      itemCount: list.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                            padding: EdgeInsets.only(
+                                top: heightQuery * 0.012,
+                                left: sizeQuery.width * 0.042,
+                                right: sizeQuery.width * 0.042),
+                            child: ContractItem(
+                              isSaved: list[index].isSaved,
+                              date: list[index].date,
+                              status: list[index].status,
+                              contractNumber: list[index].contractNumber,
+                              amount: list[index].amount,
+                              invoices: list[index].invoices,
+                              lastInvoice: list[index].lastInvoice,
+                              name: list[index].name,
+                            ));
+                      });
+                },
+              ),
             ),
           ],
         ),

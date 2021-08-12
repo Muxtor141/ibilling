@@ -147,7 +147,7 @@ class _DateFilterState extends State<DateFilter> {
                         width: sizeQuery.width * 0.027,
                       ),
                       Text(
-                        'filter.rejectIQ'.tr(),
+                        'filter.rejectedbyiq'.tr(),
                         style: styleGrey,
                       ),
                     ],
@@ -174,7 +174,7 @@ class _DateFilterState extends State<DateFilter> {
                             width: sizeQuery.width * 0.027,
                           ),
                           Text(
-                            'filter.process'.tr(),
+                            'filter.inprocess'.tr(),
                             style: styleGrey,
                           ),
                         ],
@@ -194,7 +194,7 @@ class _DateFilterState extends State<DateFilter> {
                       width: sizeQuery.width * 0.027,
                     ),
                     Text(
-                      'filter.rejectPayme'.tr(),
+                      'filter.rejectedbypayme'.tr(),
                       style: styleGrey,
                     ),
                   ],

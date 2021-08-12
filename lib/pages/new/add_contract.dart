@@ -23,6 +23,18 @@ class AddContract extends StatefulWidget {
 }
 
 class _AddContractState extends State<AddContract> {
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _cIndividual.dispose();
+    _cStatus.dispose();
+    _cAddres.dispose();
+    _cName.dispose();
+    _cInn.dispose();
+
+    super.dispose();
+  }
+
   final _bloc = CreateContractBloc();
   final _cubit = RadioStatus();
   final TextEditingController _cIndividual = TextEditingController();

@@ -11,6 +11,7 @@ class DemoData {
         "invoices": 9,
         "contractNumber": 67,
         "inn": "543234233",
+        "isSaved":true,
         "address": "Boburshox ko'chasi 43-uy,Yunusobod tumani,Toshkent",
         "created": "2021-03-17 14:28:00"
       },
@@ -21,6 +22,7 @@ class DemoData {
         "lastInvoice": 185,
         "invoices": 3,
         "inn": "543234233",
+        "isSaved":false,
         "contractNumber": 144,
         "address": "Boburshox ko'chasi 43-uy,Yunusobod tumani,Toshkent",
         "created": "2021-08-06 14:28:00"
@@ -33,6 +35,7 @@ class DemoData {
         "invoices": 12,
         "contractNumber": 234,
         "inn": "543234233",
+        "isSaved":true,
         "address": "Boburshox ko'chasi 43-uy,Yunusobod tumani,Toshkent",
         "created": "2021-08-10 11:56:00"
       },
@@ -44,6 +47,7 @@ class DemoData {
         "invoices": 14,
         "contractNumber": 106,
         "inn": "543234233",
+        "isSaved":false,
         "address": "Boburshox ko'chasi 43-uy,Yunusobod tumani,Toshkent",
         "created": "2021-08-09 17:13:00"
       },
@@ -55,6 +59,7 @@ class DemoData {
         "invoices": 12,
         "contractNumber": 234,
         "inn": "543234233",
+        "isSaved":true,
         "address": "Boburshox ko'chasi 43-uy,Yunusobod tumani,Toshkent",
         "created": "2021-08-10 11:56:00"
       },
@@ -66,6 +71,7 @@ class DemoData {
         "invoices": 12,
         "contractNumber": 234,
         "inn": "543234233",
+        "isSaved":false,
         "address": "Boburshox ko'chasi 43-uy,Yunusobod tumani,Toshkent",
         "created": "2021-08-10 11:56:00"
       }

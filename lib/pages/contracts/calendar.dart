@@ -7,7 +7,6 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:ibilling/components/billing_icons_icons.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:ibilling/services/date/date_bloc.dart';
-import 'package:ibilling/services/date/date_event.dart';
 import 'package:ibilling/services/events_cubit.dart';
 import 'package:ibilling/services/fetching/list_event.dart';
 import 'package:ibilling/services/fetching/networking_bloc.dart';
@@ -81,6 +80,14 @@ class _CalendarState extends State<Calendar> {
     }
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _scrollController.dispose();
+
+    super.dispose();
   }
 
   @override

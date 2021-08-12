@@ -44,6 +44,7 @@
         "profile":"Profile"
     },
     "newContract":{
+        "addContract":"Save Contract",
         "create":"What you want to create",
         "new contract":"New contract",
         "invididual":"Individual",

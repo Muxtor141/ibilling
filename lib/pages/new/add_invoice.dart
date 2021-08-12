@@ -16,6 +16,17 @@ class AddInvoice extends StatefulWidget {
 }
 
 class _AddInvoiceState extends State<AddInvoice> {
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _status.dispose();
+    _service.dispose();
+    _name.dispose();
+    _address.dispose();
+
+    super.dispose();
+  }
+
   final _bloc = CreateContractBloc();
   final _cubit = RadioStatus();
   final TextEditingController _status = TextEditingController();

@@ -72,7 +72,7 @@ class _PageContractsState extends State<PageContracts> {
       body: BlocConsumer<FetchDataBloc2, List>(
         listener: (context, state) {},
         builder: (context, list) {
-          var snapshot = list;
+          List snapshot = list;
           return Container(
             child: Column(
               children: [
@@ -123,6 +123,7 @@ class _PageContractsState extends State<PageContracts> {
                                               padding: EdgeInsets.only(
                                                   top: heightQuery * 0.012),
                                               child: ContractItem(
+                                                 isSaved: snapshot[index-1].isSaved,
                                                 status:
                                                     snapshot[index - 1].status,
                                                 date: snapshot[index - 1].date,

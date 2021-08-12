@@ -12,9 +12,11 @@ class ContractItem extends StatelessWidget {
   final int contractNumber;
   final DateTime date;
   final String status;
+  final bool isSaved;
   const ContractItem(
       {Key? key,
       required this.amount,
+      required this.isSaved,
       required this.date,
       required this.status,
       required this.invoices,

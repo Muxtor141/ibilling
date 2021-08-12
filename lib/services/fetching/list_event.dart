@@ -27,13 +27,6 @@ abstract class ContractListUpdateEvent {
     }
   }
 }
-
-class ContractOnly extends ContractListUpdateEvent {}
-
-class InvoiceOnly extends ContractListUpdateEvent {}
-
-class UpdateDate extends ContractListUpdateEvent {}
-
 class GetData extends ContractListUpdateEvent {}
 
 class AddContractEvent extends ContractListUpdateEvent {
@@ -58,4 +51,9 @@ class ContractsDayUpdate extends ContractListUpdateEvent {
 class DeleteContract extends ContractListUpdateEvent {
   final int contractNumber;
   DeleteContract(this.contractNumber);
+}
+
+class UpdateSavedStatus extends ContractListUpdateEvent {
+  final int contractIndex;
+  UpdateSavedStatus(this.contractIndex);
 }

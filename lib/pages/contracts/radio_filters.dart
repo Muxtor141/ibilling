@@ -12,7 +12,7 @@ class RadioFilters extends StatefulWidget {
 }
 
 class _RadioFiltersState extends State<RadioFilters> {
-  final _bloc = FetchDataBloc();
+
   TextStyle style = GoogleFonts.ubuntu(
       fontSize: 15,
       fontWeight: FontWeight.w500,
