@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -14,7 +15,7 @@ class PageProfile extends StatefulWidget {
 }
 
 class _PageProfileState extends State<PageProfile> {
-  final _cubit = LanguageChangerCubit();
+  String languageText = "English(USA)";
   final TextStyle style = GoogleFonts.ubuntu(
       fontSize: 14,
       fontWeight: FontWeight.w500,
@@ -29,7 +30,6 @@ class _PageProfileState extends State<PageProfile> {
   @override
   @override
   Widget build(BuildContext context) {
-    _cubit.updateAlways(context);
     final cubitData = DataProvider();
     final sizeQuery = MediaQuery.of(context).size;
     final heightQuery = sizeQuery.height -
@@ -160,40 +160,59 @@ class _PageProfileState extends State<PageProfile> {
             SizedBox(
               height: heightQuery * 0.0147,
             ),
-            Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6),
-                  color: Theme.of(context).cardColor),
-              margin: EdgeInsets.only(
-                  left: sizeQuery.width * 0.032,
-                  right: sizeQuery.width * 0.032,
-                  top: heightQuery * 0.0245),
-              height: heightQuery * 0.0539,
-              width: sizeQuery.width * 0.9156,
-              child: Container(
-                margin: EdgeInsets.only(
-                  left: sizeQuery.width * 0.032,
-                  right: sizeQuery.width * 0.032,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'English(USA)',
-                      style: style,
+            BlocConsumer<LanguageChangerCubit, Locale>(
+              listener: (c, s) {},
+              builder: (context1, state1) {
+               
+                switch (context.locale.toString()) {
+                  case "en_US":
+                    languageText = "English(USA)";
+                    break;
+                  case "ru_RU":
+                    languageText = "Русский";
+                    break;
+                  case "uz_UZ":
+                    languageText = "O'zbek(Lotin)";
+                }
+                return Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6),
+                      color: Theme.of(context).cardColor),
+                  margin: EdgeInsets.only(
+                      left: sizeQuery.width * 0.032,
+                      right: sizeQuery.width * 0.032,
+                      top: heightQuery * 0.0245),
+                  height: heightQuery * 0.0539,
+                  width: sizeQuery.width * 0.9156,
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      left: sizeQuery.width * 0.032,
+                      right: sizeQuery.width * 0.032,
                     ),
-                    IconButton(
-                        onPressed: () {
-                          showDialog(
-                              context: context,
-                              builder: (c) {
-                                return LanguageDialog();
-                              });
-                        },
-                        icon: Icon(BillingIcons.language_us))
-                  ],
-                ),
-              ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          languageText,
+                          style: style,
+                        ),
+                        IconButton(
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (c) {
+                                    return LanguageDialog(
+                                      blocContext: context1,
+                                      state: state1,
+                                    );
+                                  });
+                            },
+                            icon: Icon(BillingIcons.language_us))
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
           ],
         ),

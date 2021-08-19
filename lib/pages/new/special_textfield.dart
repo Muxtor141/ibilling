@@ -7,9 +7,10 @@ import 'package:ibilling/components/billing_icons_icons.dart';
 import 'package:ibilling/services/adding/add_data_bloc.dart';
 import 'package:ibilling/services/adding/radio_cubit.dart';
 
+
 class ModalTextField extends StatefulWidget {
   final AppBar appbar;
-  final RadioStatus cubit;
+  final BuildContext cubit;
   final GlobalKey<FormState> formKey;
   final String? Function(String?)? function;
   final CreateContractBloc bloc;
@@ -81,7 +82,7 @@ class _ModalTextFieldState extends State<ModalTextField> {
                           : SetPaidStatus(text);
                       context1.read<CreateContractBloc>().add(event);
                       Timer(Duration(milliseconds: 200), () {
-                        widget.cubit.updateIndividual(text);
+                        widget.cubit.read<RadioStatus>().updateIndividual(text);
                         widget.textController.text = context1
                             .read<CreateContractBloc>()
                             .state[widget.eventIndex];

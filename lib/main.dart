@@ -74,8 +74,8 @@ class MyApp extends StatelessWidget {
               create: (BuildContext c) => FetchDataBloc2()),
           BlocProvider<DateUpdateBloc2>(
               create: (BuildContext c) => DateUpdateBloc2()),
-          BlocProvider<SelectedDateCubit>(
-              create: (BuildContext c) => SelectedDateCubit()),
+          BlocProvider<SelectedDateIndexCubit>(
+              create: (BuildContext c) => SelectedDateIndexCubit()),
           BlocProvider<CurrentSingleItemCubit>(
               create: (BuildContext c) => CurrentSingleItemCubit()),
           BlocProvider<FetchSpecialDataBloc>(

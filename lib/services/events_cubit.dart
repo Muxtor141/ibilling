@@ -10,11 +10,14 @@ class DataProvider extends Cubit<double> {
 
 class LanguageChangerCubit extends Cubit<Locale> {
   LanguageChangerCubit() : super(Locale("en", "US"));
-  updateAlways(BuildContext context) {
-    emit(context.locale);
-  }
 
-  updateLanguage(Locale? locale, BuildContext context) {
+
+  updateIndex(Locale? locale) {
+    
+    emit(locale!);
+  
+  }
+   updateLanguage(Locale? locale, BuildContext context) {
     context.setLocale(locale!);
     emit(locale);
   }
@@ -25,10 +28,11 @@ class NavBarindex extends Cubit<int> {
   void updateIndex(int num) => emit(num);
 }
 
-class SelectedDateCubit extends Cubit<int> {
-  SelectedDateCubit() : super(0);
+class SelectedDateIndexCubit extends Cubit<int> {
+  SelectedDateIndexCubit() : super(0);
   void updateIndex(int num) => emit(num);
 }
+
 
 class ValidationCubit extends Cubit<bool> {
   ValidationCubit() : super(true);
@@ -41,10 +45,10 @@ class CurrentSingleItemCubit extends Cubit<ModelContract> {
 
   void updateSingleItem(ModelContract contract) {
     emit(contract);
-   
   }
-   void updateSavedStatus() {
-      state.isSaved = !state.isSaved;
-      emit(state);
-    }
+
+  void updateSavedStatus() {
+    state.isSaved = !state.isSaved;
+    emit(state);
+  }
 }

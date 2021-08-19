@@ -46,7 +46,7 @@
     "newContract":{
         "addContract":"Save Contract",
         "create":"What you want to create",
-        "new contract":"New contract",
+        "newContract":"New contract",
         "invididual":"Individual",
         "citizen":"Citizen",
         "legal":"Yuridik",
@@ -63,6 +63,8 @@
         "new":"New Invoice"
     },
     "contractItem":{
+        "status":"Status",
+        "address":"Address",
         "name":"Fish",
         "amount":"Amount",
         "invoice":"Last invoice",
@@ -70,7 +72,7 @@
         "created":"Created at",
         "delete":"Delete contract",
         "create":"Create contract",
-        "extra":"Other contracts with \n Yoldosheva Feruza",
+        "extra":"Other contracts with \n ",
         "comment":"Leave a comment,why are you \n       deleting this contract",
         "cancel":"Cancel",
         "done":"Done"

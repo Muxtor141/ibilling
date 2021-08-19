@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/cupertino.dart';
 
 /// The events which `CounterBloc` will react to.
 class ControllerTextEvent {}

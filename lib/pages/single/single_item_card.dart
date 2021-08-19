@@ -175,7 +175,7 @@ class _SingleItemCardState extends State<SingleItemCard> {
                                 });
                           },
                           child: Text(
-                            'Delete contract',
+                            'contractItem.delete'.tr(),
                             style: GoogleFonts.ubuntu(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700,
@@ -196,7 +196,7 @@ class _SingleItemCardState extends State<SingleItemCard> {
                         child: MaterialButton(
                           onPressed: () {},
                           child: Text(
-                            'Create contract',
+                            'contractItem.create'.tr(),
                             style: GoogleFonts.ubuntu(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700,
@@ -218,8 +218,8 @@ class _SingleItemCardState extends State<SingleItemCard> {
           ),
           Row(
             children: [
-              Text(
-                'Other contracts with \n ${widget.name}',
+              Text(context.locale==Locale('uz','UZ')?
+                '${ widget.name}${'contractItem.extra'.tr()}': '${'contractItem.extra'.tr()}${ widget.name}',
                 style: GoogleFonts.ubuntu(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,

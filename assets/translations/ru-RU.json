@@ -1,3 +1,86 @@
 {
+    "home":{
+        "contracts":"Контракты",
+        "history":"История",
+        "new":"Новый",
+        "saved":"Сохранено",
+        "profile":"Профил",
+        "date":"Дата",
+        "status":"Статус"
+        
+    },
+    "contracts":{        
+        "invoiceBt":"Инвойс",              
+        "contracts":"Контракты",
+        "invoice":"Инвойси",
+        "weekDays":{
+            "monday":"Пн",
+            "tuesday":"Вт",
+            "wednesday":"Cр",
+            "thursday":"Чт",
+            "friday":"Пт",
+            "saturday":"Су",
+            "sunday":"Во"
+        },
+"month":{
+    "august":"August"
+
+}
+
+    },
+    "filter":{
+        "cancel":"Отмена",
+        "apply":"Применить фильтры",
+        "paid":"Оплаченный",
+        "inprocess":"В процессе",
+        "rejectedbyiq":"Отклонено IQ",
+        "rejectedbypayme":"Отклонено Payme",
+        "filters":"Фильтры"
+    },
+    "profile":{
+        "birth":"Дата рождения",
+        "phone":"Телефонный номер",
+        "mail":"э-почта",
+        "profile":"Профил"
+    },
+    "newContract":{
+        "addContract":"Сохранить контракт",
+        "create":"Что вы хотите создать?",
+        "newContract":"Новый контракт",
+        "invididual":"Лицо",
+        "citizen":"Физическое",
+        "legal":"Юридическое",
+        "name":"ФИО",
+        "address":"Адрес организации",
+        "INT":"ОИС",
+        "status":"Статус контракта"
+
+    },
+    "newInvoice":{
+        "service":"Название услуги",
+        "amount":"Сумма инвойс",
+        "status":"Статус инвойс",
+        "new":"Новый инвойс"
+    },
+    "contractItem":{
+        "status":"Статус",
+        "address":"Адрес",
+        "name":"ФИО",
+        "amount":"Сумма",
+        "invoice":"Последний инвойс",
+        "invoices":"Количество инвойс",
+        "created":"Создано ",
+        "delete":"Удалить контракт",
+        "create":"Создать контракт",
+        "extra":"Другие контракты с  \n ",
+        "comment":"Оставьте комментарий, почему вы \n       удаляете этот контракт?",
+        "cancel":"Отмена",
+        "done":"Готово"
+    },
+    "empty":{
+        "saved":"Нет сохраненных контрактов",
+        "contracts":"Никаких контрактов не заключено",
+        "history":"Нет истории за этот период"
+    }
     
 }

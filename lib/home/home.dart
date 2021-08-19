@@ -14,6 +14,7 @@ import 'package:ibilling/pages/new/new_main.dart';
 import 'package:ibilling/pages/profile/profile_main.dart';
 import 'package:ibilling/pages/saved/saved_main.dart';
 import 'package:ibilling/pages/single/single_item.dart';
+import 'package:ibilling/services/adding/radio_cubit.dart';
 import 'package:ibilling/services/date/date_bloc.dart';
 import 'package:ibilling/services/events_cubit.dart';
 
@@ -81,8 +82,10 @@ class _HomeState extends State<Home> {
             ),
             PageHistory(),
             PageNew(
-              body: AddContract(
-                controller: pageController,
+              body: BlocProvider<RadioStatus>(create: (c)=>RadioStatus(),
+                child: AddContract(
+                  controller: pageController,
+                ),
               ),
             ),
             PageSaved(),

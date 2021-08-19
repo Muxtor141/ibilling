@@ -107,164 +107,169 @@ class _CalendarState extends State<Calendar> {
           dayDifference = dayDifference + (dayDifference * -2);
 
           var snapshotData = data;
-          return Container(
-            color: Theme.of(context).backgroundColor,
-            height: sizeQuery.height * 0.181,
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: sizeQuery.width * 0.0426,
-                      right: sizeQuery.width * 0.0426),
-                  child: Row(
+         DateTime startDate = data[0];
+          return BlocConsumer<SelectedDateIndexCubit, int>(
+              listener: (context1, numIndex) {},
+              builder: (context1, numIndex) {
+                return Container(
+                  color: Theme.of(context).backgroundColor,
+                  height: sizeQuery.height * 0.181,
+                  child: Column(
                     children: [
-                      RichText(
-                          text: TextSpan(children: [
-                        TextSpan(
-                          text: "${listOfMonths[selectedDate.month - 1]},",
-                          style: GoogleFonts.ubuntu(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                              fontStyle: FontStyle.normal,
-                              color: HexColor('#DADADA')),
-                        ),
-                        TextSpan(
-                          text: selectedDate.year.toString(),
-                          style: GoogleFonts.ubuntu(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                              fontStyle: FontStyle.normal,
-                              color: HexColor('#DADADA')),
-                        ),
-                      ])),
-                      Spacer(),
-                      Row(
-                        children: [
-                          IconButton(
-                              onPressed: () {
-                                if (_scrollController.offset != 0.0) {
-                                  _scrollController.animateTo(
-                                      _scrollController.offset - 20,
-                                      duration: Duration(microseconds: 10),
-                                      curve: Curves.bounceInOut);
-                                }
-                              },
-                              icon: Icon(
-                                Icons.arrow_back_ios,
-                                color: Colors.white,
-                                size: 20,
-                              )),
-                          IconButton(
-                              onPressed: () {
-                                _scrollController.animateTo(
-                                    _scrollController.offset + 20,
-                                    duration: Duration(microseconds: 10),
-                                    curve: Curves.easeInSine);
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: sizeQuery.width * 0.0426,
+                            right: sizeQuery.width * 0.0426),
+                        child: Row(
+                          children: [
+                            RichText(
+                                text: TextSpan(children: [
+                              TextSpan(
+                                text:
+                                    "${listOfMonths[startDate.add(Duration(days: numIndex)).month - 1]},",
+                                style: GoogleFonts.ubuntu(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w700,
+                                    fontStyle: FontStyle.normal,
+                                    color: HexColor('#DADADA')),
+                              ),
+                              TextSpan(
+                                text: startDate.add(Duration(days: numIndex)).year.toString(),
+                                style: GoogleFonts.ubuntu(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w700,
+                                    fontStyle: FontStyle.normal,
+                                    color: HexColor('#DADADA')),
+                              ),
+                            ])),
+                            Spacer(),
+                            Row(
+                              children: [
+                                IconButton(
+                                    onPressed: () {
+                                      if (_scrollController.offset != 0.0) {
+                                        _scrollController.animateTo(
+                                            _scrollController.offset - 20,
+                                            duration:
+                                                Duration(microseconds: 10),
+                                            curve: Curves.bounceInOut);
+                                      }
+                                    },
+                                    icon: Icon(
+                                      Icons.arrow_back_ios,
+                                      color: Colors.white,
+                                      size: 20,
+                                    )),
+                                IconButton(
+                                    onPressed: () {
+                                      _scrollController.animateTo(
+                                          _scrollController.offset + 20,
+                                          duration: Duration(microseconds: 10),
+                                          curve: Curves.easeInSine);
 
-                                Timer(
-                                    Duration(
-                                      microseconds: 200,
-                                    ),
-                                    () {});
-                              },
-                              icon: Icon(
-                                BillingIcons.arrow_right,
-                                color: Colors.white,
-                                size: 18,
-                              )),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: sizeQuery.height * 0.01,
-                ),
-                BlocConsumer<SelectedDateCubit, int>(
-                  listener: (context1, numIndex) {},
-                  builder: (context1, numIndex) {
-                    return Container(
-                      height: sizeQuery.height * 0.083,
-                      width: sizeQuery.width * 0.95,
-                      child: ListView.separated(
-                          controller: _scrollController,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (BuildContext context, index) {
-                            return GestureDetector(
-                              onTap: () {
-                                context1
-                                    .read<SelectedDateCubit>()
-                                    .updateIndex(index);
-                                currentIndex = index;
-                                selectedDate =
-                                    snapshotData[0].add(Duration(days: index));
+                                      Timer(
+                                          Duration(
+                                            microseconds: 200,
+                                          ),
+                                          () {});
+                                    },
+                                    icon: Icon(
+                                      BillingIcons.arrow_right,
+                                      color: Colors.white,
+                                      size: 18,
+                                    )),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: sizeQuery.height * 0.01,
+                      ),
+                      Container(
+                        height: sizeQuery.height * 0.083,
+                        width: sizeQuery.width * 0.95,
+                        child: ListView.separated(
+                            controller: _scrollController,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (BuildContext context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  context1
+                                      .read<SelectedDateIndexCubit>()
+                                      .updateIndex(index);
+                                  currentIndex = index;
+                                  selectedDate = snapshotData[0]
+                                      .add(Duration(days: index));
 
-                                print(selectedDate.toString());
-                                context
-                                    .read<FetchDataBloc2>()
-                                    .add(ContractsDayUpdate(selectedDate));
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: numIndex == index
-                                        ? Color(0xFF00A795)
-                                        : Theme.of(context).backgroundColor,
-                                    borderRadius: BorderRadius.circular(6)),
-                                height: sizeQuery.height * 0.083,
-                                width: sizeQuery.width * 0.1226,
+                                  print(selectedDate.toString());
+                                  context
+                                      .read<FetchDataBloc2>()
+                                      .add(ContractsDayUpdate(selectedDate));
+                                },
                                 child: Container(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        listOfDays[snapshotData[0]
-                                                    .add(Duration(days: index))
-                                                    .weekday -
-                                                1]
-                                            .toString(),
-                                        style: currentIndex == index
-                                            ? styleWhite
-                                            : style,
-                                      ),
-                                      SizedBox(
-                                        height: sizeQuery.height * 0.005,
-                                      ),
-                                      Text(
-                                        snapshotData[0]
-                                            .add(Duration(days: index))
-                                            .day
-                                            .toString(),
-                                        style: currentIndex == index
-                                            ? styleWhite
-                                            : style,
-                                      ),
-                                      Container(
-                                        height: 10,
-                                        width: 20,
-                                        child: Divider(
-                                          thickness: 2,
-                                          endIndent: 1,
-                                          indent: 1,
-                                          height: 30,
-                                          color: Colors.white,
+                                  decoration: BoxDecoration(
+                                      color: numIndex == index
+                                          ? Color(0xFF00A795)
+                                          : Theme.of(context).backgroundColor,
+                                      borderRadius: BorderRadius.circular(6)),
+                                  height: sizeQuery.height * 0.083,
+                                  width: sizeQuery.width * 0.1226,
+                                  child: Container(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          listOfDays[snapshotData[0]
+                                                      .add(
+                                                          Duration(days: index))
+                                                      .weekday -
+                                                  1]
+                                              .toString(),
+                                          style: currentIndex == index
+                                              ? styleWhite
+                                              : style,
                                         ),
-                                      ),
-                                    ],
+                                        SizedBox(
+                                          height: sizeQuery.height * 0.005,
+                                        ),
+                                        Text(
+                                          snapshotData[0]
+                                              .add(Duration(days: index))
+                                              .day
+                                              .toString(),
+                                          style: currentIndex == index
+                                              ? styleWhite
+                                              : style,
+                                        ),
+                                        Container(
+                                          height: 10,
+                                          width: 20,
+                                          child: Divider(
+                                            thickness: 2,
+                                            endIndent: 1,
+                                            indent: 1,
+                                            height: 30,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            );
-                          },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return SizedBox(width: 10);
-                          },
-                          itemCount: dayDifference),
-                    );
-                  },
-                )
-              ],
-            ),
-          );
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return SizedBox(width: 10);
+                            },
+                            itemCount: dayDifference),
+                      ),
+                    ],
+                  ),
+                );
+              });
         },
       ),
     );

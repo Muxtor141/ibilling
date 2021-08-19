@@ -110,7 +110,7 @@ class _DateFilterState extends State<DateFilter> {
                   child: Row(
                     children: [
                       Container(
-                        width: sizeQuery.width * 0.4,
+                        width: sizeQuery.width * 0.41,
                         child: Row(
                           children: [
                             Checkbox(
@@ -156,7 +156,7 @@ class _DateFilterState extends State<DateFilter> {
                 Row(
                   children: [
                     Container(
-                      width: sizeQuery.width * 0.4,
+                      width: sizeQuery.width * 0.41,
                       child: Row(
                         children: [
                           Checkbox(
